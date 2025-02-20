@@ -15,6 +15,7 @@
             font-family: Arial, sans-serif;
             background: #1a1a1a;
             color: white;
+            position: relative;
         }
 
         .roulette-container {
@@ -70,10 +71,19 @@
                 rgba(255,215,0,0.2) 100%
             );
         }
+
+        .side-image {
+            position: absolute;
+            right: auto;
+            left: auto;
+            top: 20px;
+            width: 150px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>Pho Co Roulette</h1>
+    <h1>🍜 Pho Co Roulette 🍝</h1>
 
     <div class="roulette-container">
         <div class="indicator"></div>
@@ -88,6 +98,8 @@
     </div>
 
     <button onclick="spin()">SPIN</button>
+
+    <img src="wednesday.jpg" alt="Side Image" class="side-image">
 
     <script>
         const items = [
