@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍜 Pho Co Roulette</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 60px;
+            overflow: hidden;
+            border: 2px solid gold;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .roulette-window {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+
+        .roulette-item {
+            height: 60px;
+            line-height: 60px;
+            font-size: 24px;
+            font-weight: bold;
+            background: #2a2a2a;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: gold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .indicator {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,215,0,0.2) 0%,
+                transparent 20%,
+                transparent 80%,
+                rgba(255,215,0,0.2) 100%
+            );
+        }
+    </style>
+</head>
+<body>
+    <h1>Pho Co Roulette</h1>
+    
+    <div class="roulette-container">
+        <div class="indicator"></div>
+        <div class="roulette-window" id="roulette">
+        </div>
+    </div>
+
+    <button onclick="spin()">SPIN</button>
+
+    <script>
+        const items = [
+            "9️⃣   PHO HA NOI    ",
+            "1️⃣0️⃣ MI WONTON     ",
+            "1️⃣1️⃣ BUN NEM       ",
+            "1️⃣2️⃣ BUN LA LOT    ",
+            "1️⃣3️⃣ BUN CHA       ",
+            "1️⃣4️⃣ BUN NAU       ",
+            "1️⃣5️⃣ NOM MIEN      ",
+            "1️⃣6️⃣ CA RI KHOAI DO",
+        ];
+
+        const roulette = document.getElementById('roulette');
+        let isSpinning = false;
+
+        // Initialize roulette items
+        function initializeRoulette() {
+            // Create multiple sets of items for smooth animation
+            const sets = 5;
+            for (let i = 0; i < sets; i++) {
+                items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'roulette-item';
+                    div.textContent = item;
+                    roulette.appendChild(div);
+                });
+            }
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            // Calculate total height of one set of items
+            const itemHeight = 60;
+            const totalHeight = items.length * itemHeight;
+
+            // Reset position
+            roulette.style.transition = 'none';
+            roulette.style.transform = 'translateY(0)';
+            
+            // Force reflow
+            roulette.offsetHeight;
+
+            // Random number of full rotations plus random item
+            const rotations = 3 + Math.floor(Math.random() * 2);
+            const randomItem = Math.floor(Math.random() * items.length);
+            const finalPosition = -(rotations * totalHeight + randomItem * itemHeight);
+
+            // Start animation
+            roulette.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+            roulette.style.transform = `translateY(${finalPosition}px)`;
+
+            // Reset after animation
+            setTimeout(() => {
+                isSpinning = false;
+            }, 5000);
+        }
+
+        // Initialize on load
+        initializeRoulette();
+    </script>
+</body>
+</html>
